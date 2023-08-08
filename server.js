@@ -13,3 +13,6 @@ let server = http.listen(3000, function () {
 app.get('/test', function (req, res) {
     res.sendFile(__dirname + '/www/test.html');
 });
+
+// require("./routes/check.js").routeFunc(app);
+
