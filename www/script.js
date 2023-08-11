@@ -1,10 +1,8 @@
 $(document).ready(function () {
-    console.log("ready");
-    $("#loginform").submit(function(event) {
+    $("#login-form").submit(function (event) {
         event.preventDefault();
         ajaxPost();
     });
-
     function ajaxPost() {
         var formData = {
             email: $("#email").val(),
@@ -13,15 +11,17 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: window.location + "api/login",
+            url: "api/login",
             data: JSON.stringify(formData),
             dataType: 'json',
             success: function (customer) {
                 if (customer.valid == true) {
+                    $("#login-form").removeClass("fail");
+                    $("#login-form").addClass("success");
                     window.location.href = '/test.html';
                 } else {
-                    $("#loginform").removeClass("success");
-                    $("#loginform").addClass("fail");
+                    $("#login-form").removeClass("success");
+                    $("#login-form").addClass("fail");
                 }
                 $("#postResultDiv").html("<p>" + "Post Successfully! <br>" + "Email Address: " + customer.email + "</br>" +
                     "Password" + customer.upwd + "</br>" + "Valid User:" + customer.valid + "</p>");
@@ -30,12 +30,14 @@ $(document).ready(function () {
                 resetData();
             },
             error: function (e) {
-                alert("Error!");
-                console.log("ERROR:", e);
+                alert("Error");
+                console.log("Error:", e);
             }
         });
+        resetData();
     }
 
+    
     function resetData() {
         $("#email").val("");
         $("#upwd").val("");
